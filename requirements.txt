@@ -1,0 +1,14 @@
+The treetool scripts call
+
+ - mafft
+ - fasttree
+ - raxml
+
+In addition a number of python packages are required to run build and process the tree:
+
+ - numpy
+ - scipy
+ - matplotlib
+ - biopython
+ - dendropy
+
