@@ -24,3 +24,9 @@ optional arguments:
   --out OUT            output directory
   --nthreads NTHREADS  number of threads to use (mafft and raxml)
 ```
+
+## License and copyright
+
+Copyright 2014-2016 Trevor Bedford and Richard Neher.
+
+Source code to nextflu is made available under the terms of the [MIT license](LICENSE). nextflu is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See [MIT licence](LICENSE) for details.
