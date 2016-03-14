@@ -15,7 +15,7 @@ from itertools import izip
 path_to_augur = './' + '/'.join(sys.argv[0].split('/')[:-2])
 std_outgroup_file_blast = path_to_augur+'/source-data/outgroups.fasta'
 std_outgroup_file_nuc = path_to_augur+'/source-data/outgroups_nucleotides.fasta'
-no_raxml_threshold = 150
+no_raxml_threshold = 15000
 
 virus_config.update({
 	# data source and sequence parsing/cleaning/processing
