@@ -327,8 +327,8 @@ class process(object):
 		else:
 			shutil.copy("initial_tree.newick", 'raxml_tree.newick')
 
-		print "RAxML branch length optimization and rooting"
 		if raxml_time_limit>0:
+			print "RAxML branch length optimization and rooting"
 			os.system("raxmlHPC -f e -T "+str(self.nthreads) +  " -s temp.phyx -n branches -c 25 -m GTRGAMMA -p 344312987 -t raxml_tree.newick -o " + self.outgroup['strain'])
 			raxml_rooted=True
 		else:

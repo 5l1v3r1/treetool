@@ -388,11 +388,6 @@ if __name__=="__main__":
 	shutil.copy2(path_to_augur + '/../auspice/js/autocomplete.js', muttree.outdir+'js/autocomplete.js')
 	shutil.copy2(path_to_augur + '/../auspice/index.html', muttree.outdir+'index.html')
 	shutil.copy2(path_to_augur + '/../auspice/css/style.css', muttree.outdir+'css/style.css')
-	try:
-		shutil.copytree(path_to_augur + '/../auspice/css/font', muttree.outdir+'css/font')
-		shutil.copytree(path_to_augur + '/../auspice/css/font-awesome', muttree.outdir+'css/font-awesome')
-	except:
-		print "Cannot create font directories"
 
 	with open(muttree.outdir+'/js/fields.js', 'w') as ofile:
 		for field in ['passage', 'host', 'subtype','region']:
