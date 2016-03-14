@@ -1,5 +1,5 @@
 # treetool
-tool to build and visualize annotated influenza phylogenies based on blab/nextflu
+tool to build and visualize annotated influenza phylogenies based on [blab/nextflu](https://github.com/blab/nextflu)
 
 The tool is run for example as
 ```
