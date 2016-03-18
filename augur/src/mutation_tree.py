@@ -339,7 +339,11 @@ if __name__=="__main__":
 	parser.add_argument('--cds', nargs = '+', type = int, default = None, help='part of the outgroup sequence that is to be translated')
 	parser.add_argument('--out', type = str, default = 'output/', help='output directory')
 	parser.add_argument('--nthreads', type = int, default=1,   help ="number of threads to use (mafft and raxml)")
+	parser.add_argument('--mplconfigdir', type = str, default="/tmp/",   help ="directory for matplotlib configuration directory")
 	params = parser.parse_args()
+
+	# set matplot configuration path, needs to be writable and set before matplotib import (in .export)
+	os.environ['MPLCONFIGDIR'] = params.mplconfigdir
 
 	# check and parse cds
 	if params.cds is None:
