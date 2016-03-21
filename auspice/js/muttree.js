@@ -1601,9 +1601,9 @@ d3.json(path + file_prefix + "tree.json", function(error, root) {
 		}
 		var downloadButtons = document.getElementById("download");
 		if (alt_aa){
-			downloadButtons.innerHTML = '<a href="tree_alt.png"><button type="button" class="btn btn-default">png</button></a> <a href="tree_alt.pdf"><button type="button" class="btn btn-default">pdf</button></a><a href="tree_alt.nwk"><button type="button" class="btn btn-default">newick</button></a> <button type="button" class="btn btn-default" id="svgexport">SVG</button>';
+			downloadButtons.innerHTML = '<a href="tree_alt.png"><button type="button" class="btn btn-default">png</button></a> <a href="tree_alt.pdf"><button type="button" class="btn btn-default">pdf</button></a><a href="tree_alt.nwk"><button type="button" class="btn btn-default">newick</button></a>';
 		}else{
-			downloadButtons.innerHTML = '<a href="tree.png"><button type="button" class="btn btn-default">png</button></a> <a href="tree.pdf"><button type="button" class="btn btn-default">pdf</button></a><a href="tree.nwk"><button type="button" class="btn btn-default">newick</button></a> <button type="button" class="btn btn-default" id="svgexport">SVG</button>';
+			downloadButtons.innerHTML = '<a href="tree.png"><button type="button" class="btn btn-default">png</button></a> <a href="tree.pdf"><button type="button" class="btn btn-default">pdf</button></a><a href="tree.nwk"><button type="button" class="btn btn-default">newick</button></a>';
 		}
 	}
 
