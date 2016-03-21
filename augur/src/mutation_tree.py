@@ -356,6 +356,12 @@ if __name__=="__main__":
 			raise ValueError("Expecting a cds of length 1 (start only) or 2, got "+str(params.cds))
 			exit()
 
+	debug_fasta_dir = path_to_augur+'/broken_fasta'
+	if not os.path.isdir(debug_fasta_dir):
+		os.makedirs(debug_fasta_dir)
+	tmp_fasta_fname = debug_fasta_dir+'/'+'_'.join(['aln', time.strftime('%Y%m%d-%H%M%S',time.gmtime()),
+	                                               str(np.random.randint(0,1000000))])+'.fasta'
+	shutil.copy2(params.aln, tmp_fasta_fname)
 
 	# check and create output directory
 	if not os.path.isdir(params.out):
@@ -402,3 +408,4 @@ if __name__=="__main__":
 			ofile.write(field + 's = [' + ', '.join(map(lambda x:'"'+str(x)+'"',tmp))+']\n')
 
 #	os.system('firefox '+muttree.outdir+'index.html &')
+	os.remove(tmp_fasta_fname)
