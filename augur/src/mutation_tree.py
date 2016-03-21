@@ -137,13 +137,12 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 		by_og = by_og.items()
 		print by_og[1]
 		# sort by number of hits, then mean score
-		by_og.sort(key = lambda x:(len(x[1]), np.mean([y[-2] for y in x[1]])), reverse=True)
-		for oi, (og, hits) in enumerate(by_og):
-			if standard_outgroups[og]['date']<earliest_date-5 or np.mean([y[-1] for y in hits])<0.8:
-				break
-		outgroup_index = oi
-
-		if np.mean([y[-1] for y in hits])<0.8:
+		by_og.sort(key = lambda x:(len(x[1]), np.mean([y[1] for y in x[1]])), reverse=True)
+		outgroups_older_than_sample = [(og, hits) for (og, hits) in by_og if numerical_date(standard_outgroups[og]['date'])<earliest_date-5]
+		if len(outgroups_older_than_sample) and np.mean([y[-1] for y in outgroups_older_than_sample[0][1]])>0.8:
+			outgroup = outgroups_older_than_sample[0][0]
+		else:
+			outgroup = by_og[0][0]
 			self.midpoint_rooting = True
 			print("will root at midpoint")
 
@@ -153,7 +152,7 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 				print("including reference strain ",ref, [y[-1] for y in hits])
 				if oi>max_ref_seqs:
 					break
-		self.outgroup = standard_outgroups[by_og[outgroup_index][0]]
+		self.outgroup = standard_outgroups[outgroup]
 		self.outgroup['strain']+='OG'
 		self.cds = [0,len(self.outgroup['seq'])]
 		print("chosen outgroup",self.outgroup['strain'])
