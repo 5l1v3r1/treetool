@@ -217,6 +217,7 @@ class process(object):
 		print "Writing out metadata"
 		meta = {}
 		meta["updated"] = time.strftime("X%d %b %Y").replace('X0','X').replace('X','')
+		meta["outgroup"] = self.outgroup['strain'][:-2]
 		try:
 			from pygit2 import Repository, discover_repository
 			current_working_directory = os.getcwd()

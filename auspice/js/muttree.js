@@ -142,14 +142,9 @@ var time_step;
 
 d3.json(path + file_prefix + "meta.json", function(error, json) {
     if (error) return console.warn(error);
-    d3.select("#updated").text(json['updated']);
-    commit_id = json['commit'];
-    short_id = commit_id.substring(0, 6);
-    d3.select("#commit")
-        .append("a")
-        .attr("href", "http://github.com/blab/nextflu/commit/" + commit_id)
-        .text(short_id);
-
+    outgroup_name = json['outgroup'];
+    console.log(outgroup_name);
+    d3.select("#outgroup").text("Reference: "+outgroup_name);
 });
 
 var ymd_format = d3.time.format("%Y-%m-%d");
