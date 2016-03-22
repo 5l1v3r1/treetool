@@ -381,6 +381,16 @@ if __name__=="__main__":
 			os.makedirs(params.out+'/css')
 		except OSError as e:
 			print "Cannot create output directory",e
+	shutil.copy2(params.aln, params.out+'/input_sequences.fasta')
+	shutil.copy2(path_to_augur + '/../auspice/error.html', params.out+'/index.html')
+	shutil.copy2(path_to_augur + '/../auspice/js/muttree.js', params.out+'/js/muttree.js')
+	shutil.copy2(path_to_augur + '/../auspice/js/msa.min.js', params.out+'/js/msa.min.js')
+	shutil.copy2(path_to_augur + '/../auspice/js/d3.min.js', params.out+'/js/d3.min.js')
+	shutil.copy2(path_to_augur + '/../auspice/js/d3.tip.js', params.out+'/js/d3.tip.js')
+	shutil.copy2(path_to_augur + '/../auspice/js/FileSaver.js', params.out+'/js/FileSaver.js')
+	shutil.copy2(path_to_augur + '/../auspice/js/autocomplete.js', params.out+'/js/autocomplete.js')
+	shutil.copy2(path_to_augur + '/../auspice/css/style.css', params.out+'/css/style.css')
+
 	virus_config["outdir"]=params.out
 	virus_config["nthreads"]=params.nthreads
 
@@ -388,16 +398,6 @@ if __name__=="__main__":
 		muttree = mutation_tree(params.aln, params.outgroup, **virus_config)
 		muttree.run(raxml_time_limit=0.1)
 		muttree.export()
-
-
-		shutil.copy2(path_to_augur + '/../auspice/js/muttree.js', muttree.outdir+'js/muttree.js')
-		shutil.copy2(path_to_augur + '/../auspice/js/msa.min.js', muttree.outdir+'js/msa.min.js')
-		shutil.copy2(path_to_augur + '/../auspice/js/d3.min.js', muttree.outdir+'js/d3.min.js')
-		shutil.copy2(path_to_augur + '/../auspice/js/d3.tip.js', muttree.outdir+'js/d3.tip.js')
-		shutil.copy2(path_to_augur + '/../auspice/js/FileSaver.js', muttree.outdir+'js/FileSaver.js')
-		shutil.copy2(path_to_augur + '/../auspice/js/autocomplete.js', muttree.outdir+'js/autocomplete.js')
-		shutil.copy2(path_to_augur + '/../auspice/index.html', muttree.outdir+'index.html')
-		shutil.copy2(path_to_augur + '/../auspice/css/style.css', muttree.outdir+'css/style.css')
 
 		with open(muttree.outdir+'/js/fields.js', 'w') as ofile:
 			for field in ['passage', 'host', 'subtype','region']:
@@ -409,6 +409,7 @@ if __name__=="__main__":
 				ofile.write(field + 's = [' + ', '.join(map(lambda x:'"'+str(x)+'"',tmp))+']\n')
 
 	#	os.system('firefox '+muttree.outdir+'index.html &')
+		shutil.copy2(path_to_augur + '/../auspice/index.html', muttree.outdir+'index.html')
 		os.remove(tmp_fasta_fname)
 	except:
 		print("treetool run failed")

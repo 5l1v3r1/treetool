@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>nextflu / annotated phylogeny</title>
+
+    	<!-- Customized Bootstrap + Font Awesome -->
+		<link href="css/style.css" rel="stylesheet" media="screen">
+	</head>
+
+	<body>
+
+		<div class="container">
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="logo-container">
+				<div class="bigtitle">tree tool</div>
+				<div class="title">
+				based on
+				<a href="http://nextflu.org">
+				<span class="c2">n</span><span class="c3">e</span><span class="c4">x</span><span class="c5">t</span><span class="c6">f</span><span class="c7">l</span><span class="c8">u</span></a>
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+			<div class="bigspacer"></div>
+			<h3>ERROR</h3>
+			<h4>Your set of sequences could not be processed by the tree building pipeline</h4>
+			<h5>treetool received the following input</h5>
+			<div id="aln"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-9">
+				<hr>The
+				<a href="http://github.com/blab/nextflu" target="_blank">source code</a> is freely available under the terms of the
+				<a href="http://github.com/blab/nextflu/blob/master/LICENSE.txt" target="_blank">GNU Affero General Public License</a>.
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-9">
+				<hr>
+				<div class="center text-gray smallnote">
+					&copy; 2015 Trevor Bedford and Richard Neher
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="bigspacer"></div>
+			</div>
+		</div>
+
+
+		<script src="js/msa.min.js"></script>
+		<script>
+		var rootDiv = document.getElementById('aln');
+		/* global rootDiv */
+		var msa = require("msa");
+		var opts = {
+		  el: rootDiv,
+		  importURL: "./input_sequences.fasta",
+		  bootstrapMenu: true, // simplified behavior to add the menu bar, you can also create your own menu instance
+		  //vis: {seqlogo: true},
+		  colorscheme: {"scheme": "clustal2"},
+		};
+		var m = new msa(opts);
+		m.g.on('all',function(name,data){var obj = {name: name, data: data};if(inIframe()){ parent.postMessage(obj, "*") }});
+		function inIframe(){try{return window.self!==window.top}catch(e){return true}}
+		</script>
+    	</div>
+	</body>
+</html>
