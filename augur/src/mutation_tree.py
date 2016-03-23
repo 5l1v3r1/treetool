@@ -147,7 +147,7 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 			print("will root at midpoint")
 
 		for oi, (ref, hits) in enumerate(by_og):
-			if (np.max([y[-1] for y in hits])>0.9+oi*0.02) and ref!=og:
+			if (np.max([y[-1] for y in hits])>0.9+oi*0.02) and ref!=outgroup:
 				self.viruses.append(standard_outgroups[ref])
 				print("including reference strain ",ref, [y[-1] for y in hits])
 				if oi>max_ref_seqs:
@@ -413,5 +413,4 @@ if __name__=="__main__":
 		os.remove(tmp_fasta_fname)
 	except:
 		print("treetool run failed")
-		shutil.copy2(path_to_augur + '/../auspice/index.html', muttree.outdir+'index.html')
 
