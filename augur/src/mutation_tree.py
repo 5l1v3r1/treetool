@@ -302,7 +302,7 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 	def make_strain_names_unique(self):
 		strain_to_seq = defaultdict(list)
 		for v in self.viruses:
-			strain_to_seq[v['strain']].append(v)
+			strain_to_seq[v['strain'].upper()].append(v)
 		for strain, strain_list in strain_to_seq.iteritems():
 			if len(strain_list)>1:
 				for ii, virus in enumerate(strain_list):
@@ -408,7 +408,6 @@ if __name__=="__main__":
 				if "Unknown" not in tmp: tmp.append("Unknown")
 				ofile.write(field + 's = [' + ', '.join(map(lambda x:'"'+str(x)+'"',tmp))+']\n')
 
-	#	os.system('firefox '+muttree.outdir+'index.html &')
 		shutil.copy2(path_to_augur + '/../auspice/index.html', muttree.outdir+'index.html')
 		os.remove(tmp_fasta_fname)
 	except:
