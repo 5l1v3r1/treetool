@@ -14,7 +14,7 @@ from itertools import izip
 
 path_to_augur = './' + '/'.join(sys.argv[0].split('/')[:-2])
 std_outgroup_file_blast = path_to_augur+'/source-data/outgroups.fasta'
-std_outgroup_file_nuc = path_to_augur+'/source-data/outgroups_nucleotides.fasta'
+std_outgroup_file_nuc = path_to_augur+'/source-data/outgroups_nucleotides_unspliced.fasta'
 no_raxml_threshold = 15000
 
 virus_config.update({
@@ -154,7 +154,8 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 					break
 		self.outgroup = standard_outgroups[outgroup]
 		self.outgroup['strain']+='OG'
-		self.cds = [0,len(self.outgroup['seq'])]
+		prot = Seq(self.outgroup['seq']).translate(to_stop=True)
+		self.cds = [0,min(len(prot)*3,len(self.outgroup['seq']))]
 		print("chosen outgroup",self.outgroup['strain'])
 
 	def refine(self):
