@@ -138,7 +138,9 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 		print by_og[1]
 		# sort by number of hits, then mean score
 		by_og.sort(key = lambda x:(len(x[1]), np.mean([y[1] for y in x[1]])), reverse=True)
-		outgroups_older_than_sample = [(og, hits) for (og, hits) in by_og if numerical_date(standard_outgroups[og]['date'])<earliest_date-5]
+		outgroups_older_than_sample = [(og, hits) for (og, hits) in by_og
+							if (numerical_date(standard_outgroups[og]['date'])<earliest_date-5) or
+								('A/California/07/2009' in standard_outgroups[og]['strain'])]
 		if len(outgroups_older_than_sample) and np.mean([y[-1] for y in outgroups_older_than_sample[0][1]])>0.8:
 			outgroup = outgroups_older_than_sample[0][0]
 		else:
@@ -153,7 +155,8 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 				if oi>max_ref_seqs:
 					break
 		self.outgroup = standard_outgroups[outgroup]
-		self.outgroup['strain']+='OG'
+		if 'A/California/07/2009' not in self.outgroup['strain']:
+			self.outgroup['strain']+='OG'
 		prot = Seq(self.outgroup['seq']).translate(to_stop=True)
 		self.cds = [0,min(len(prot)*3,len(self.outgroup['seq']))]
 		print("chosen outgroup",self.outgroup['strain'])
@@ -161,7 +164,9 @@ class mutation_tree(process, flu_filter, tree_refine, virus_clean):
 	def refine(self):
 		self.node_lookup = {node.taxon.label:node for node in self.tree.leaf_iter()}
 		self.unique_date()
-		self.remove_outgroup()
+		if 'A/California/07/2009' not in self.outgroup['strain']:
+			self.remove_outgroup()
+
 		self.ladderize()
 		self.collapse()
 		self.add_nuc_mutations()
