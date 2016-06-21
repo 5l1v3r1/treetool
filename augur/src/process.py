@@ -278,9 +278,9 @@ class process(object):
 		os.chdir(self.run_dir)
 		SeqIO.write([SeqRecord(Seq(v['seq']), id=v['strain']) for v in self.viruses], "temp_in.fasta", "fasta")
 		if fast:
-			os.system("mafft --anysymbol --thread " + str(self.nthreads) + " temp_in.fasta > temp_out.fasta")
+			os.system("mafft --anysymbol --thread " + str(self.nthreads) + " temp_in.fasta 1> temp_out.fasta 2>mafft.out")
 		else:
-			os.system("mafft --anysymbol --thread " + str(self.nthreads) + " temp_in.fasta > temp_out.fasta")
+			os.system("mafft --anysymbol --thread " + str(self.nthreads) + " temp_in.fasta 1> temp_out.fasta 2>mafft.out")
 		aln = AlignIO.read('temp_out.fasta', 'fasta')
 		self.sequence_lookup = {seq.id:seq for seq in aln}
 		# add attributes to alignment
@@ -300,7 +300,7 @@ class process(object):
 		AlignIO.write(self.viruses, 'temp.fasta', 'fasta')
 
 		print "Building initial tree with FastTree"
-		os.system("fasttree -gtr -nt -gamma -nosupport temp.fasta > initial_tree.newick")
+		os.system("fasttree -gtr -nt -gamma -nosupport temp.fasta 1> initial_tree.newick 2>fasttree.out")
 		self.tree = dendropy.Tree.get_from_string(delimit_newick('initial_tree.newick'),'newick', as_rooted=True)
 		self.tree.resolve_polytomies()
 		self.tree.write_to_path("initial_tree.newick", "newick")
@@ -310,7 +310,7 @@ class process(object):
 			print "RAxML tree optimization with time limit " + str(raxml_time_limit) + " hours"
 			# using exec to be able to kill process
 			end_time = time.time() + int(raxml_time_limit*3600)
-			process = subprocess.Popen("exec raxmlHPC -f d -T "+str(self.nthreads) +  " -j -s temp.phyx -n topology -c 25 -m GTRCAT -p 344312987 -t initial_tree.newick", shell=True)
+			process = subprocess.Popen("exec raxmlHPC -f d -T "+str(self.nthreads) +  " -j -s temp.phyx -n topology -c 25 -m GTRCAT -p 344312987 -t initial_tree.newick >raxml.out", shell=True)
 			while (time.time() < end_time):
 				if os.path.isfile('RAxML_result.topology'):
 					break
@@ -330,7 +330,7 @@ class process(object):
 
 		if raxml_time_limit>0:
 			print "RAxML branch length optimization and rooting"
-			os.system("raxmlHPC -f e -T "+str(self.nthreads) +  " -s temp.phyx -n branches -c 25 -m GTRGAMMA -p 344312987 -t raxml_tree.newick -o " + self.outgroup['strain'])
+			os.system("raxmlHPC -f e -T "+str(self.nthreads) +  " -s temp.phyx -n branches -c 25 -m GTRGAMMA -p 344312987 -t raxml_tree.newick -o " + self.outgroup['strain']+ ' >raxml2.out')
 			raxml_rooted=True
 		else:
 			shutil.copy('raxml_tree.newick', 'RAxML_result.branches')
